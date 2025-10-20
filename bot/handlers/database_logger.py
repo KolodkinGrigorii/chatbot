@@ -3,7 +3,7 @@ import json
 import os
 import sqlite3
 
-from bot.database_client import persist_updates
+from bot.database_client import persist_update
 from bot.handler import Handler
 from dotenv import load_dotenv
 
@@ -15,5 +15,5 @@ class DatabaseLogger(Handler):
         return True
 
     def handle(self, update: dict) -> bool:
-        persist_updates(update)
+        persist_update(update)
         return True
