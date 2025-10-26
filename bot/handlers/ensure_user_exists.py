@@ -1,19 +1,11 @@
-import bot.telegram_client
-import json
-import os
-import sqlite3
-
-from bot.database_client import persist_update
+from bot.database_client import ensure_user_exists
 from bot.handlers.handler import Handler, HandlerStatus
-from dotenv import load_dotenv
 
-load_dotenv()
-
-
-class DatabaseLogger(Handler):
+class EnsureUserExists(Handler):
     def can_handle(self, update: dict, state: str, order_json: dict) -> bool:
-        return True
+        return "message" in update and "from" in update["message"]
 
     def handle(self, update: dict, state: str, order_json: dict) -> bool:
-        persist_update(update)
+        telegram_id=update["message"]["chat"]["id"]
+        ensure_user_exists(telegram_id)
         return HandlerStatus.CONTINUE

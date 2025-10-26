@@ -27,11 +27,15 @@ def getUpdates(offset: int) -> dict:
     return makeRequest("getUpdates", offset=offset)
 
     
-def sendMessage(chat_id: int, text: str) -> dict:
-    return makeRequest("sendMessage", chat_id=chat_id, text=text)
+def sendMessage(chat_id: int, text: str, **param) -> dict:
+    return makeRequest("sendMessage", chat_id=chat_id, text=text, **param)
 
 def getMe() -> dict:
     return makeRequest("getMe")
 
-def sendPhoto(chat_id: int, photo: str) -> dict:
-    return makeRequest("sendPhoto", chat_id=chat_id, photo=photo)
+def answerCallbackQuery(callback_query_id: str, **param) -> dict:
+    return makeRequest("answerCallbackQuery", callback_query_id=callback_query_id, **param)
+
+
+def deleteMessage(chat_id: int, message_id: int) -> dict:
+    return makeRequest("deleteMessage", chat_id=chat_id, message_id=message_id)
