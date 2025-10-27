@@ -21,7 +21,7 @@ class OrderFinalStateHandler(Handler):
 
         approval_answer = callback_data.replace("approval_", "").replace("_", " ").title()
         if approval_answer=="Yes":
-            bot.telegram_client.deleteMessage(
+            bot.telegram_client.delete_message(
                 chat_id=update["callback_query"]["message"]["chat"]["id"],
                 message_id=update["callback_query"]["message"]["message_id"],
             )
@@ -30,7 +30,7 @@ class OrderFinalStateHandler(Handler):
                 text="Your order is cooking now! Please, wait",
             )
         elif approval_answer=="No":
-            bot.telegram_client.deleteMessage(
+            bot.telegram_client.delete_message(
                 chat_id=update["callback_query"]["message"]["chat"]["id"],
                 message_id=update["callback_query"]["message"]["message_id"],
             )

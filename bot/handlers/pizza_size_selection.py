@@ -22,8 +22,8 @@ class PizzaSelectionHandler(Handler):
         pizza_name = callback_data.replace("pizza_", "").replace("_", " ").title()
         bot.database_client.update_user_state_and_order(telegram_id, {"pizza_name": pizza_name})
         bot.database_client.update_user_state(telegram_id, "WAIT_FOR_PIZZA_SIZE")
-        bot.telegram_client.answerCallbackQuery(update["callback_query"]["id"])
-        bot.telegram_client.deleteMessage(
+        bot.telegram_client.answer_callback_query(update["callback_query"]["id"])
+        bot.telegram_client.delete_message(
             chat_id=update["callback_query"]["message"]["chat"]["id"],
             message_id=update["callback_query"]["message"]["message_id"],
         )

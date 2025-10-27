@@ -23,8 +23,8 @@ class ApprovalHandler(Handler):
         order_json["drink"]=drink
         bot.database_client.update_user_state_and_order(telegram_id, order_json)
         bot.database_client.update_user_state(telegram_id, "WAIT_FOR_APPROVAL")
-        bot.telegram_client.answerCallbackQuery(update["callback_query"]["id"])
-        bot.telegram_client.deleteMessage(
+        bot.telegram_client.answer_callback_query(update["callback_query"]["id"])
+        bot.telegram_client.delete_message(
             chat_id=update["callback_query"]["message"]["chat"]["id"],
             message_id=update["callback_query"]["message"]["message_id"],
         )
