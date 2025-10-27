@@ -28,7 +28,7 @@ class DrinkSelectionHandler(Handler):
             chat_id=update["callback_query"]["message"]["chat"]["id"],
             message_id=update["callback_query"]["message"]["message_id"],
         )
-        bot.telegram_client.sendMessage(
+        bot.telegram_client.send_message(
             chat_id=update["callback_query"]["message"]["chat"]["id"],
             text="Please select Drink",
             reply_markup=json.dumps(

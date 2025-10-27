@@ -25,7 +25,7 @@ class OrderFinalStateHandler(Handler):
                 chat_id=update["callback_query"]["message"]["chat"]["id"],
                 message_id=update["callback_query"]["message"]["message_id"],
             )
-            bot.telegram_client.sendMessage(
+            bot.telegram_client.send_message(
                 chat_id=update["callback_query"]["message"]["chat"]["id"],
                 text="Your order is cooking now! Please, wait",
             )
@@ -36,7 +36,7 @@ class OrderFinalStateHandler(Handler):
             )
             bot.database_client.clear_user_state_and_order(telegram_id)
             bot.database_client.update_user_state(telegram_id, "WAIT_FOR_PIZZA_NAME")
-            bot.telegram_client.sendMessage(
+            bot.telegram_client.send_message(
                 chat_id=update["callback_query"]["message"]["chat"]["id"],
                 text="Please, choose Pizza Type",
                 reply_markup=json.dumps(

@@ -40,7 +40,7 @@ class ApprovalHandler(Handler):
 
 Is everything OK?"""
 
-        bot.telegram_client.sendMessage(
+        bot.telegram_client.send_message(
             chat_id=update["callback_query"]["message"]["chat"]["id"],
             text=order_summary,
             parse_mode="Markdown",

@@ -20,13 +20,13 @@ class MessageStart(Handler):
         bot.database_client.clear_user_state_and_order(telegram_id)
         bot.database_client.update_user_state(telegram_id, "WAIT_FOR_PIZZA_NAME")
 
-        bot.telegram_client.sendMessage(
+        bot.telegram_client.send_message(
             chat_id=update["message"]["chat"]["id"],
             text="Welcome to Pizza shop!",
             reply_markup=json.dumps({"remove_keyboard": True}),
         )
 
-        bot.telegram_client.sendMessage(
+        bot.telegram_client.send_message(
             chat_id=update["message"]["chat"]["id"],
             text="Please, choose Pizza Type",
             reply_markup=json.dumps(

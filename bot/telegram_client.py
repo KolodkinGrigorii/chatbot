@@ -23,15 +23,11 @@ def makeRequest(method: str, **param) -> dict:
         assert response_json["ok"]==True
         return response_json["result"]
     
-def getUpdates(offset: int) -> dict:
+def get_updates(offset: int) -> dict:
     return makeRequest("getUpdates", offset=offset)
 
-    
-def sendMessage(chat_id: int, text: str, **param) -> dict:
+def send_message(chat_id: int, text: str, **param) -> dict:
     return makeRequest("sendMessage", chat_id=chat_id, text=text, **param)
-
-def getMe() -> dict:
-    return makeRequest("getMe")
 
 def answerCallbackQuery(callback_query_id: str, **param) -> dict:
     return makeRequest("answerCallbackQuery", callback_query_id=callback_query_id, **param)
