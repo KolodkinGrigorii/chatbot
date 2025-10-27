@@ -21,6 +21,7 @@ class OrderFinalStateHandler(Handler):
 
         approval_answer = callback_data.replace("approval_", "").replace("_", " ").title()
         if approval_answer=="Yes":
+            bot.database_client.update_user_state(telegram_id, "ORDER_FINISHED")
             bot.telegram_client.delete_message(
                 chat_id=update["callback_query"]["message"]["chat"]["id"],
                 message_id=update["callback_query"]["message"]["message_id"],
