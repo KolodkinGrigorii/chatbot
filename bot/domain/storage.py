@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class Storage(ABC):
     @abstractmethod
     def ensure_user_exists(self, telegram_id: int) -> None: ...

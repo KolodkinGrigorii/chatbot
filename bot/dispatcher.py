@@ -10,7 +10,6 @@ class Dispatcher:
         self.storage: Storage = storage
         self.messenger: Messenger = messenger
 
-
     def add_handler(self, *handlers: list[Handler]) -> None:
         for handler in handlers:
             self._handlers.append(handler)
@@ -35,7 +34,11 @@ class Dispatcher:
         order_json = json.loads(order_json)
 
         for handler in self._handlers:
-            if handler.can_handle(update, user_state, order_json, self.storage, self.messenger):
-                status = handler.handle(update, user_state, order_json, self.storage, self.messenger)
+            if handler.can_handle(
+                update, user_state, order_json, self.storage, self.messenger
+            ):
+                status = handler.handle(
+                    update, user_state, order_json, self.storage, self.messenger
+                )
                 if status == HandlerStatus.STOP:
                     break
