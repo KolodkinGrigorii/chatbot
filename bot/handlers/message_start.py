@@ -5,17 +5,16 @@ import bot.database_client
 from bot.handlers.handler import Handler, HandlerStatus
 
 
-
 class MessageStart(Handler):
     def can_handle(self, update: dict, state: str, data: dict) -> bool:
         return (
             "message" in update
             and "text" in update["message"]
-            and update["message"]["text"] == "/start" 
+            and update["message"]["text"] == "/start"
         )
 
     def handle(self, update: dict, state: str, data: dict) -> HandlerStatus:
-        telegram_id=update["message"]["from"]["id"]
+        telegram_id = update["message"]["from"]["id"]
 
         bot.database_client.clear_user_state_and_order(telegram_id)
         bot.database_client.update_user_state(telegram_id, "WAIT_FOR_PIZZA_NAME")
@@ -38,12 +37,12 @@ class MessageStart(Handler):
                         ],
                         [
                             {
-                                "text": "Quatro Stagioni", 
-                                "callback_data": "pizza_stagioni" ,  
+                                "text": "Quatro Stagioni",
+                                "callback_data": "pizza_stagioni",
                             },
                             {
-                                "text": "Capricciosa", 
-                                "callback_data": "pizza_capricciosa" ,  
+                                "text": "Capricciosa",
+                                "callback_data": "pizza_capricciosa",
                             },
                         ],
                     ],

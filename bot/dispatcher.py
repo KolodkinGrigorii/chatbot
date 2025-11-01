@@ -2,6 +2,7 @@ import json
 import bot
 from bot.handlers.handler import Handler, HandlerStatus
 
+
 class Dispatcher:
     def __init__(self):
         self._handlers: list[Handler] = []
@@ -26,11 +27,11 @@ class Dispatcher:
 
         order_json = user["order_json"] if user else "{}"
         if order_json is None:
-            order_json="{}"
-        order_json=json.loads(order_json)
+            order_json = "{}"
+        order_json = json.loads(order_json)
 
         for handler in self._handlers:
             if handler.can_handle(update, user_state, order_json):
-                status=handler.handle(update, user_state, order_json)
+                status = handler.handle(update, user_state, order_json)
                 if status == HandlerStatus.STOP:
                     break
