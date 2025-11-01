@@ -62,7 +62,7 @@ def ensure_user_exists(telegram_id: int) -> None:
 def clear_user_state_and_order(telegram_id: int) -> None:
     with sqlite3.connect(os.getenv("SQLITE_DATABASE_PATH")) as connection:
         with connection:
-            cursor = connection.execute(
+            connection.execute(
                 "UPDATE users SET state = NULL, order_json = NULL WHERE telegram_id = ?",
                 (telegram_id,),
             )
@@ -71,7 +71,7 @@ def clear_user_state_and_order(telegram_id: int) -> None:
 def update_user_state(telegram_id: int, state: str) -> None:
     with sqlite3.connect(os.getenv("SQLITE_DATABASE_PATH")) as connection:
         with connection:
-            cursor = connection.execute(
+            connection.execute(
                 "UPDATE users SET state = ? WHERE telegram_id = ?", (state, telegram_id)
             )
 

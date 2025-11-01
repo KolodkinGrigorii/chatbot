@@ -4,7 +4,6 @@ from bot.long_polling import start_long_polling
 
 
 def main() -> None:
-    next_update_offset = 0
     try:
         dispatcher = Dispatcher()
         dispatcher.add_handler(*get_handlers())

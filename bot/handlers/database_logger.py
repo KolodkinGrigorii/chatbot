@@ -1,7 +1,3 @@
-import bot.telegram_client
-import json
-import os
-import sqlite3
 
 from bot.database_client import persist_update
 from bot.handlers.handler import Handler, HandlerStatus
