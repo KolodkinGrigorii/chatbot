@@ -7,8 +7,8 @@ from bot.infrastructure.storage_sqlite import StorageSqlite
 
 def main() -> None:
     try:
-        storage: Storage = StorageSqlite()
-        messenger: Messenger = MessengerTelegram()
+        storage = StorageSqlite()
+        messenger = MessengerTelegram()
 
         dispatcher = Dispatcher(storage, messenger)
         dispatcher.add_handler(*get_handlers())
