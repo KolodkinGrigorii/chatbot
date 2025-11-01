@@ -1,12 +1,12 @@
 import json
 
-import bot.telegram_client
-import bot.database_client
+from bot.domain.messenger import Messenger
+from bot.domain.storage import Storage
 from bot.handlers.handler import Handler, HandlerStatus
 
 
 class ApprovalHandler(Handler):
-    def can_handle(self, update: dict, state: str, order_json: dict) -> bool:
+    def can_handle(self, update: dict, state: str, order_json: dict, storage: Storage, messenger: Messenger) -> bool:
         if "callback_query" not in update:
             return False
 
@@ -16,16 +16,16 @@ class ApprovalHandler(Handler):
         callback_data = update["callback_query"]["data"]
         return callback_data.startswith("drink_")
 
-    def handle(self, update: dict, state: str, order_json: dict) -> HandlerStatus:
+    def handle(self, update: dict, state: str, order_json: dict, storage: Storage, messenger: Messenger) -> HandlerStatus:
         telegram_id = update["callback_query"]["from"]["id"]
         callback_data = update["callback_query"]["data"]
 
         drink = callback_data.replace("drink_", "").replace("_", " ").title()
         order_json["drink"] = drink
-        bot.database_client.update_user_state_and_order(telegram_id, order_json)
-        bot.database_client.update_user_state(telegram_id, "WAIT_FOR_APPROVAL")
-        bot.telegram_client.answer_callback_query(update["callback_query"]["id"])
-        bot.telegram_client.delete_message(
+        storage.update_user_state_and_order(telegram_id, order_json)
+        storage.update_user_state(telegram_id, "WAIT_FOR_APPROVAL")
+        messenger.answer_callback_query(update["callback_query"]["id"])
+        messenger.delete_message(
             chat_id=update["callback_query"]["message"]["chat"]["id"],
             message_id=update["callback_query"]["message"]["message_id"],
         )
@@ -41,7 +41,7 @@ class ApprovalHandler(Handler):
 
 Is everything OK?"""
 
-        bot.telegram_client.send_message(
+        messenger.send_message(
             chat_id=update["callback_query"]["message"]["chat"]["id"],
             text=order_summary,
             parse_mode="Markdown",

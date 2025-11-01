@@ -1,12 +1,12 @@
 import json
 
-import bot.telegram_client
-import bot.database_client
+from bot.domain.messenger import Messenger
+from bot.domain.storage import Storage
 from bot.handlers.handler import Handler, HandlerStatus
 
 
 class DrinkSelectionHandler(Handler):
-    def can_handle(self, update: dict, state: str, order_json: dict) -> bool:
+    def can_handle(self, update: dict, state: str, order_json: dict, storage: Storage, messenger: Messenger) -> bool:
         if "callback_query" not in update:
             return False
 
@@ -16,20 +16,20 @@ class DrinkSelectionHandler(Handler):
         callback_data = update["callback_query"]["data"]
         return callback_data.startswith("size_")
 
-    def handle(self, update: dict, state: str, order_json: dict) -> HandlerStatus:
+    def handle(self, update: dict, state: str, order_json: dict, storage: Storage, messenger: Messenger) -> HandlerStatus:
         telegram_id = update["callback_query"]["from"]["id"]
         callback_data = update["callback_query"]["data"]
 
         pizza_size = callback_data.replace("size_", "").replace("_", " ").title()
         order_json["pizza_size"] = pizza_size
-        bot.database_client.update_user_state_and_order(telegram_id, order_json)
-        bot.database_client.update_user_state(telegram_id, "WAIT_FOR_DRINK")
-        bot.telegram_client.answer_callback_query(update["callback_query"]["id"])
-        bot.telegram_client.delete_message(
+        storage.update_user_state_and_order(telegram_id, order_json)
+        storage.update_user_state(telegram_id, "WAIT_FOR_DRINK")
+        messenger.answer_callback_query(update["callback_query"]["id"])
+        messenger.delete_message(
             chat_id=update["callback_query"]["message"]["chat"]["id"],
             message_id=update["callback_query"]["message"]["message_id"],
         )
-        bot.telegram_client.send_message(
+        messenger.send_message(
             chat_id=update["callback_query"]["message"]["chat"]["id"],
             text="Please select Drink",
             reply_markup=json.dumps(
