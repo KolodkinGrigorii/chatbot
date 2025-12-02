@@ -50,7 +50,7 @@ async def test_update_database_logger_execution():
 
     dispatcher = Dispatcher(mock_storage, mock_messenger)
     update_logger = DatabaseLogger()
-    dispatcher.add_handler(update_logger)
+    dispatcher.add_handlers(update_logger)
     await dispatcher.dispatch(test_update)
 
     assert persist_update_called
