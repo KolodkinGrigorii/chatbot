@@ -1,6 +1,6 @@
-from bot.handlers.handler import Handler, HandlerStatus
 from bot.domain.messenger import Messenger
 from bot.domain.storage import Storage
+from bot.handlers.handler import Handler, HandlerStatus
 
 
 class EnsureUserExists(Handler):
@@ -14,14 +14,16 @@ class EnsureUserExists(Handler):
     ) -> bool:
         return "message" in update and "from" in update["message"]
 
-    def handle(
+    async def handle(
         self,
         update: dict,
         state: str,
         order_json: dict,
         storage: Storage,
         messenger: Messenger,
-    ) -> bool:
-        telegram_id = update["message"]["chat"]["id"]
-        storage.ensure_user_exists(telegram_id)
+    ) -> HandlerStatus:
+        telegram_id = update["message"]["from"]["id"]
+
+        await storage.ensure_user_exists(telegram_id)
+
         return HandlerStatus.CONTINUE
